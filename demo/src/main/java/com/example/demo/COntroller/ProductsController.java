@@ -1,10 +1,12 @@
 package com.example.demo.COntroller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.boot.jaxb.hbm.internal.CacheAccessTypeConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,8 @@ import com.example.demo.dao.ProductDTO;
 @Controller
 public class ProductsController {
 	
+	public static String Uploaddir =  System.getProperty("user.dir")+"/src/main/resources/static/productImages";
+	
 	ProductService productService;
 	CategoryService categoryService;
 	
@@ -30,6 +34,10 @@ public class ProductsController {
 		
 		productService = theproductService;
 		categoryService = thecategoryService;
+	}
+	@GetMapping("/")
+	public String showhome() {
+		return "index";
 	}
 	@GetMapping("admin/products")
 	public String showproducts(Model theModel) {
@@ -45,8 +53,9 @@ public class ProductsController {
 		
 		ProductDTO products = new ProductDTO();
 		List<Category> theCategories = categoryService.findAll();
-		theModel.addAttribute("productDTO",products);
 		theModel.addAttribute("categories",theCategories);
+		theModel.addAttribute("productDTO",products);
+		
 		
 		
 		return "productsAdd";
@@ -65,7 +74,14 @@ public class ProductsController {
 		product.setWeight(productDTO.getWeight());
 		product.setDescription(productDTO.getDescription());
 		String imageUUID;
-		
+		if(!file.isEmpty()) {
+			imageUUID = file.getOriginalFilename();
+			Path filenameandPath = Paths.get(Uploaddir, imageUUID);
+			Files.write(filenameandPath, file.getBytes());
+		}else {
+			imageUUID = imgName;
+		}
+		product.setImageName(imageUUID);
 		
 		
 		productService.save(product);
@@ -73,7 +89,7 @@ public class ProductsController {
 		return "redirect:/admin/products";
 	}
 	
-	@GetMapping("/admin/products/delete/{id}")
+	@GetMapping("/admin/product/delete/{id}")
 	public String delproducts(@PathVariable int id) {
 		
 		productService.deleteById(id);
@@ -81,18 +97,24 @@ public class ProductsController {
 		return "redirect:/admin/products";
 	}
 	
-	@GetMapping("/admin/products/update/{id}")
+	@GetMapping("/admin/product/update/{id}")
 	public String updateproducts(@PathVariable int id,Model theModel) {
 		
-		Optional<Product> product = productService.findById(id);
-		if(product.isPresent()) {
-			
-			theModel.addAttribute("product",product.get());
+		Product product = productService.findById(id).get();
+		ProductDTO productDTO = new ProductDTO() ;
+		productDTO.setId(product.getId());
+		productDTO.setName(product.getName());
+		productDTO.setCategoryId(product.getCategory().getId());
+		productDTO.setPrice(product.getPrice());
+		productDTO.setWeight(product.getWeight());
+		productDTO.setDescription(product.getDescription());
+		productDTO.setImageName(product.getImageName());
+		
+			List<Category> theCategories = categoryService.findAll();
+			theModel.addAttribute("categories",theCategories);
+			theModel.addAttribute("productDTO",productDTO);
 			return "productsAdd";
-			
-		}else {
-			return "404";
-		}
+	
 				
 	}
 	
