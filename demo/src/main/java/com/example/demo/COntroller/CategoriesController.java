@@ -3,26 +3,23 @@ package com.example.demo.COntroller;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.message.ReusableMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.demo.Repo.CategoryService;
 import com.example.demo.dao.Category;
 
 @Controller
 
-public class AdminController {
+public class CategoriesController {
 	
 	CategoryService categoryService;
 	
 	
-	public AdminController(CategoryService thecategoryService) {
+	public CategoriesController(CategoryService thecategoryService) {
 		super();
 		categoryService = thecategoryService;
 	}
@@ -57,16 +54,8 @@ public class AdminController {
 		
 		return "redirect:/admin/categories";
 	}
-	/*
 	@GetMapping("/admin/categories/delete/{id}")
 	public String delcategories(@PathVariable int id) {
-		
-		categoryService.deleteById(id);
-		
-		return "redirect:/admin/categories";
-	}*/
-	@GetMapping("/admin/categories/delete")
-	public String delcategories(@RequestParam("id") int id) {
 		
 		categoryService.deleteById(id);
 		
@@ -84,11 +73,7 @@ public class AdminController {
 		}else {
 			return "404";
 		}
-		
-		
-		
-		
-		
+				
 	}
 	
 }
