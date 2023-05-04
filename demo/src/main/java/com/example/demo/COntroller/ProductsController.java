@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.Repo.CategoryService;
-import com.example.demo.Repo.ProductService;
+import com.example.demo.service.CategoryService;
+import com.example.demo.service.ProductService;
 import com.example.demo.dao.Category;
 import com.example.demo.dao.Product;
 import com.example.demo.dao.ProductDTO;
@@ -35,10 +33,7 @@ public class ProductsController {
 		productService = theproductService;
 		categoryService = thecategoryService;
 	}
-	@GetMapping("/")
-	public String showhome() {
-		return "index";
-	}
+	
 	@GetMapping("admin/products")
 	public String showproducts(Model theModel) {
 		

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.example.demo.Repo.CategoryService;
+import com.example.demo.service.CategoryService;
 import com.example.demo.dao.Category;
 
 @Controller
