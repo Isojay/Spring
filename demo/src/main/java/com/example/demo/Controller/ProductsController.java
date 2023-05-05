@@ -1,4 +1,4 @@
-package com.example.demo.COntroller;
+package com.example.demo.Controller;
 
 import java.io.IOException;
 import java.nio.file.Files;
