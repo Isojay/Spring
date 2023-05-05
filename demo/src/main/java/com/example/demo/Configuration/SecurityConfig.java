@@ -34,6 +34,7 @@ public class SecurityConfig {
 			.formLogin(form -> form
 					.loginPage("/login")
 					.failureUrl("/login?error=true")
+					.defaultSuccessUrl("/",true)
 					.permitAll()
 					.usernameParameter("email")
 					.passwordParameter("password")
@@ -41,12 +42,8 @@ public class SecurityConfig {
 			.logout(logout->
 				logout
 					.permitAll()
-					.logoutSuccessUrl("/login")
-				)
-			.exceptionHandling(configurer -> 
-				configurer
-						.accessDeniedPage("/")
-					);
+					.logoutSuccessUrl("/")
+				);
 		http.csrf().disable();
 		return http.build();
 	}
