@@ -3,12 +3,12 @@ package com.example.demo.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.demo.service.customUserDetailService;
@@ -33,16 +33,22 @@ public class SecurityConfig {
 				)
 			.formLogin(form -> form
 					.loginPage("/login")
+					.permitAll()
 					.failureUrl("/login?error=true")
 					.defaultSuccessUrl("/",true)
-					.permitAll()
+					
 					.usernameParameter("email")
 					.passwordParameter("password")
 				)
+//			.oauth2Login(OAuth -> OAuth
+//					.loginPage("/login")
+//					.successHandler(GoogleOAuth2SucessHandler))
 			.logout(logout->
 				logout
 					.permitAll()
 					.logoutSuccessUrl("/")
+					.invalidateHttpSession(true)
+					.deleteCookies("JSESSIONID")
 				);
 		http.csrf().disable();
 		return http.build();

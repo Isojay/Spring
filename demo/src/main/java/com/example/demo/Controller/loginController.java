@@ -1,13 +1,23 @@
 package com.example.demo.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.coyote.http11.Http11InputBuffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.Repo.RoleRepo;
 import com.example.demo.Repo.UserRepo;
 import com.example.demo.dao.Roles;
+import com.example.demo.dao.Users;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class loginController {
@@ -28,6 +38,18 @@ public class loginController {
 	public String showRegister() {
 		return "register";
 	}
-	
+	@PostMapping("/register")
+	public String Doregister(@ModelAttribute("user") Users users, HttpServletRequest request) throws ServletException{
+		String password = users.getPassword();
+		users.setPassword(bCryptPasswordEncoder.encode(password));
+		List<Roles> roles = new ArrayList<>();
+		roles.add(roleRepo.findById(2).get());
+		users.setRoles(roles);
+		request.login(users.getEmail(), password);
+		
+		
+		return "redirect:/*";
+		
+	}
 	
 }
