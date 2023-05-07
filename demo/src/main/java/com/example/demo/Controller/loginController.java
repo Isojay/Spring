@@ -45,10 +45,11 @@ public class loginController {
 		List<Roles> roles = new ArrayList<>();
 		roles.add(roleRepo.findById(2).get());
 		users.setRoles(roles);
+		userRepo.save(users);
 		request.login(users.getEmail(), password);
 		
 		
-		return "redirect:/*";
+		return "redirect:/";
 		
 	}
 	

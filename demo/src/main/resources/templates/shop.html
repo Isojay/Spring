@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -37,7 +38,7 @@
                     <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#">login</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" href="#">logout</a>
+                    <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/logout}" href="#">logout</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/cart}" href="#">cart</a>

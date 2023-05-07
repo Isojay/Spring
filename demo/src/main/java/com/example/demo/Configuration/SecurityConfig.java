@@ -46,7 +46,7 @@ public class SecurityConfig {
 			.logout(logout->
 				logout
 					.permitAll()
-					.logoutSuccessUrl("/")
+					.logoutSuccessUrl("/login")
 					.invalidateHttpSession(true)
 					.deleteCookies("JSESSIONID")
 				);
@@ -68,9 +68,5 @@ public class SecurityConfig {
 		    .ignoring()
 		    .requestMatchers("/css/**","/js/**");
 		}
-	
-	public SecurityConfig() {
-		// TODO Auto-generated constructor stub
-	}
 
 }
