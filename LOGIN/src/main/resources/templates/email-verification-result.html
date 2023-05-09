@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification Result</title>
+</head>
+<body>
+    <h1>Email Verification Result</h1>
+    <div th:if="${error != null}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+    <div th:if="${message != null}" style="color: green;">
+        <p th:text="${message}"></p>
+    </div>
+</body>
+</html>
